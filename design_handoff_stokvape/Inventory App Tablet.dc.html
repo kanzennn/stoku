@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; }
+  .scr::-webkit-scrollbar { width: 0; height: 0; }
+  @keyframes scanline { 0% { top: 12%; } 50% { top: 84%; } 100% { top: 12%; } }
+  @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  @keyframes pop { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  image-slot { cursor: pointer; }
+  @media print {
+    body { background: #fff !important; }
+    body * { visibility: hidden !important; }
+    #struk, #struk * { visibility: visible !important; }
+    #struk { position: fixed !important; left: 0; top: 0; width: 280px !important; margin: 0 !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; }
+  }
+</style>
+<script src="image-slot.js"></script>
+</helmet>
+
+<div style="min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;background:#E4E5E7;padding:32px;font-family:'Manrope',sans-serif;">
+  <div style="position:relative;width:1208px;height:868px;background:#0B0B0D;border-radius:34px;padding:14px;box-shadow:0 40px 90px -28px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.5);">
+    <div style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:7px;height:7px;border-radius:50%;background:#1E1F22;"></div>
+    <div class="scr" style="position:relative;width:1180px;height:840px;background:#F4F5F6;border-radius:22px;overflow:hidden;">
+
+      <!-- ============ LOGIN ============ -->
+      <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;inset:0;display:flex;animation:fade .3s ease;">
+        <div style="width:45%;background:#0E9F6E;color:#fff;padding:56px 50px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;"><div style="width:18px;height:18px;border:3px solid #fff;border-radius:5px;"></div></div>
+            <span style="font-size:20px;font-weight:800;">StokVape</span>
+          </div>
+          <div>
+            <div style="font-size:38px;font-weight:800;letter-spacing:-1px;line-height:1.15;">Kelola inventori<br/>toko vape Anda.</div>
+            <div style="font-size:15px;color:rgba(255,255,255,.78);margin-top:16px;line-height:1.6;max-width:340px;">Scan masuk-keluar, mode kasir, statistik, dan riwayat transaksi — dalam satu aplikasi.</div>
+          </div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);">© 2026 StokVape · v1.0 Tablet</div>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px;">
+          <div style="width:380px;">
+            <div style="font-size:26px;font-weight:800;color:#15171C;letter-spacing:-.4px;">Masuk ke akun</div>
+            <div style="font-size:14px;color:#6B7280;margin-top:6px;margin-bottom:30px;">Silakan masuk untuk melanjutkan.</div>
+            <label style="font-size:13px;font-weight:600;color:#454953;">Username</label>
+            <input value="{{ loginUser }}" onChange="{{ onLoginUser }}" style="width:100%;margin-top:7px;margin-bottom:16px;padding:14px 16px;border:1px solid #E2E4E8;border-radius:13px;font-size:15px;font-family:inherit;outline:none;background:#fff;color:#15171C;" />
+            <label style="font-size:13px;font-weight:600;color:#454953;">Password</label>
+            <input value="{{ loginPass }}" onChange="{{ onLoginPass }}" type="password" style="width:100%;margin-top:7px;margin-bottom:22px;padding:14px 16px;border:1px solid #E2E4E8;border-radius:13px;font-size:15px;font-family:inherit;outline:none;background:#fff;color:#15171C;" />
+            <button onClick="{{ doLogin }}" style="width:100%;padding:15px;background:#0E9F6E;color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;">Masuk</button>
+            <div style="display:flex;align-items:center;gap:12px;margin:24px 0 16px;">
+              <div style="flex:1;height:1px;background:#E2E4E8;"></div><span style="font-size:12px;color:#9AA0AA;font-weight:600;">DEMO — pilih peran</span><div style="flex:1;height:1px;background:#E2E4E8;"></div>
+            </div>
+            <div style="display:flex;gap:9px;">
+              <button onClick="{{ loginOwner }}" style="flex:1;padding:12px 6px;background:#fff;border:1px solid #E2E4E8;border-radius:12px;cursor:pointer;font-family:inherit;"><span style="display:block;font-size:13px;font-weight:700;color:#15171C;">Budi</span><span style="display:block;font-size:11px;color:#6B7280;margin-top:1px;">Owner</span></button>
+              <button onClick="{{ loginAdmin }}" style="flex:1;padding:12px 6px;background:#fff;border:1px solid #E2E4E8;border-radius:12px;cursor:pointer;font-family:inherit;"><span style="display:block;font-size:13px;font-weight:700;color:#15171C;">Sari</span><span style="display:block;font-size:11px;color:#6B7280;margin-top:1px;">Admin</span></button>
+              <button onClick="{{ loginKasir }}" style="flex:1;padding:12px 6px;background:#fff;border:1px solid #E2E4E8;border-radius:12px;cursor:pointer;font-family:inherit;"><span style="display:block;font-size:13px;font-weight:700;color:#15171C;">Dewi</span><span style="display:block;font-size:11px;color:#6B7280;margin-top:1px;">Kasir</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ APP SHELL ============ -->
+      <sc-if value="{{ appShell }}" hint-placeholder-val="">
+      <div style="display:flex;height:100%;width:100%;animation:fade .25s ease;">
+
+        <!-- SIDEBAR -->
+        <div style="width:230px;flex:none;background:#fff;border-right:1px solid #ECEEF1;display:flex;flex-direction:column;padding:22px 15px;">
+          <div style="display:flex;align-items:center;gap:11px;padding:0 6px 4px;">
+            <div style="width:38px;height:38px;border-radius:11px;background:#0E9F6E;display:flex;align-items:center;justify-content:center;"><div style="width:15px;height:15px;border:2.5px solid #fff;border-radius:4px;"></div></div>
+            <span style="font-size:17px;font-weight:800;color:#15171C;">StokVape</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;margin-top:24px;">
+            <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="6">
+              <button onClick="{{ n.go }}" style="display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:12px;border:none;background:{{ n.bg }};cursor:pointer;font-family:inherit;text-align:left;width:100%;">
+                <span style="width:22px;text-align:center;font-size:15px;font-weight:800;color:{{ n.color }};">{{ n.icon }}</span>
+                <span style="font-size:14px;font-weight:{{ n.weight }};color:{{ n.color }};">{{ n.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="flex:1;"></div>
+          <div style="border-top:1px solid #ECEEF1;padding-top:14px;">
+            <div style="display:flex;align-items:center;gap:11px;padding:0 4px 12px;">
+              <span style="width:38px;height:38px;border-radius:11px;background:#E7F6EF;color:#0B7A52;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex:none;">{{ initials }}</span>
+              <span style="min-width:0;"><span style="display:block;font-size:14px;font-weight:800;color:#15171C;">{{ firstName }}</span><span style="display:block;font-size:11.5px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ roleShort }}</span></span>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#9AA0AA;text-transform:uppercase;letter-spacing:.6px;padding:0 4px 7px;">Ganti peran (demo)</div>
+            <div style="display:flex;gap:6px;margin-bottom:11px;">
+              <button onClick="{{ switchOwner }}" style="flex:1;padding:8px 2px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid {{ ownerSel.border }};background:{{ ownerSel.bg }};color:{{ ownerSel.color }};">Owner</button>
+              <button onClick="{{ switchAdmin }}" style="flex:1;padding:8px 2px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid {{ adminSel.border }};background:{{ adminSel.bg }};color:{{ adminSel.color }};">Admin</button>
+              <button onClick="{{ switchKasir }}" style="flex:1;padding:8px 2px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid {{ kasirSel.border }};background:{{ kasirSel.bg }};color:{{ kasirSel.color }};">Kasir</button>
+            </div>
+            <button onClick="{{ logout }}" style="width:100%;padding:11px;background:#FDECEC;color:#C42B2B;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">Keluar Akun</button>
+          </div>
+        </div>
+
+        <!-- MAIN -->
+        <div style="flex:1;min-width:0;height:100%;overflow:hidden;display:flex;flex-direction:column;">
+
+          <!-- DASHBOARD -->
+          <sc-if value="{{ mainDashboard }}" hint-placeholder-val="">
+          <div class="scr" style="height:100%;overflow-y:auto;padding:26px 30px;">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;">
+              <div>
+                <div style="font-size:13px;color:#6B7280;font-weight:500;">Selamat datang kembali,</div>
+                <div style="font-size:26px;font-weight:800;color:#15171C;letter-spacing:-.5px;">{{ firstName }}</div>
+              </div>
+              <div style="font-size:13px;color:#9AA0AA;font-weight:600;">{{ todayDate }}</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;">
+              <div style="background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:18px;"><div style="font-size:12.5px;color:#6B7280;font-weight:600;">Total SKU</div><div style="font-size:30px;font-weight:800;color:#15171C;margin-top:5px;letter-spacing:-1px;">{{ totalSku }}</div></div>
+              <div style="background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:18px;"><div style="font-size:12.5px;color:#6B7280;font-weight:600;">Total Stok</div><div style="font-size:30px;font-weight:800;color:#15171C;margin-top:5px;letter-spacing:-1px;">{{ totalStock }}</div></div>
+              <div style="background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:18px;"><div style="font-size:12.5px;color:#6B7280;font-weight:600;">Stok Menipis</div><div style="font-size:30px;font-weight:800;color:#D97706;margin-top:5px;letter-spacing:-1px;">{{ lowStockCount }}</div></div>
+              <div style="background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:18px;"><div style="font-size:12.5px;color:#6B7280;font-weight:600;">Transaksi Hari Ini</div><div style="font-size:30px;font-weight:800;color:#15171C;margin-top:5px;letter-spacing:-1px;">{{ todayTxn }}</div></div>
+            </div>
+
+            <sc-if value="{{ hasLowStock }}" hint-placeholder-val="">
+            <button onClick="{{ goLowStock }}" style="width:100%;margin-top:14px;display:flex;align-items:center;gap:12px;background:#FBF0E0;border:1px solid #F3DEB6;border-radius:16px;padding:15px 18px;cursor:pointer;font-family:inherit;text-align:left;">
+              <span style="width:30px;height:30px;border-radius:9px;background:#F5C877;color:#7C4A03;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none;">!</span>
+              <span style="flex:1;font-size:13.5px;font-weight:600;color:#8A5A09;">{{ lowStockCount }} produk berada di bawah ambang stok minimum — segera lakukan restok.</span>
+              <span style="color:#B98438;">›</span>
+            </button>
+            </sc-if>
+
+            <div style="display:flex;gap:18px;margin-top:22px;align-items:flex-start;">
+              <div style="flex:1.5;min-width:0;background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:18px 20px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                  <span style="font-size:15px;font-weight:800;color:#15171C;">Transaksi Terakhir</span>
+                  <button onClick="{{ goHistory }}" style="font-size:13px;font-weight:600;color:#0E9F6E;background:none;border:none;cursor:pointer;font-family:inherit;">Lihat semua ›</button>
+                </div>
+                <div style="display:flex;flex-direction:column;">
+                  <sc-for list="{{ recentTxns }}" as="t" hint-placeholder-count="4">
+                    <button onClick="{{ t.open }}" style="display:flex;align-items:center;gap:13px;padding:11px 0;border-bottom:1px solid #F1F2F4;cursor:pointer;font-family:inherit;text-align:left;width:100%;background:none;border-left:none;border-right:none;border-top:none;">
+                      <span style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex:none;background:{{ t.dotBg }};color:{{ t.dotColor }};">{{ t.arrow }}</span>
+                      <span style="flex:1;min-width:0;"><span style="display:block;font-size:13.5px;font-weight:700;color:#15171C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ t.name }}</span><span style="display:block;font-size:11.5px;color:#9AA0AA;margin-top:1px;">{{ t.sku }} · {{ t.date }} · {{ t.userName }}</span></span>
+                      <span style="font-size:15px;font-weight:800;color:{{ t.dotColor }};">{{ t.qtyLabel }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex:1;min-width:0;background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:18px 20px;">
+                <div style="font-size:15px;font-weight:800;color:#15171C;margin-bottom:14px;">Aksi Cepat</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <sc-if value="{{ canManage }}" hint-placeholder-val="">
+                  <button onClick="{{ startScanIn }}" style="display:flex;align-items:center;gap:12px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:13px;padding:13px;cursor:pointer;font-family:inherit;text-align:left;"><span style="width:36px;height:36px;border-radius:10px;background:#E7F6EF;display:flex;align-items:center;justify-content:center;color:#0B7A52;font-size:18px;font-weight:800;flex:none;">↓</span><span style="font-size:13.5px;font-weight:700;color:#15171C;">Scan Barang Masuk</span></button>
+                  </sc-if>
+                  <button onClick="{{ startScanOut }}" style="display:flex;align-items:center;gap:12px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:13px;padding:13px;cursor:pointer;font-family:inherit;text-align:left;"><span style="width:36px;height:36px;border-radius:10px;background:#FDECEC;display:flex;align-items:center;justify-content:center;color:#C42B2B;font-size:18px;font-weight:800;flex:none;">↑</span><span style="font-size:13.5px;font-weight:700;color:#15171C;">Scan Barang Keluar</span></button>
+                  <button onClick="{{ openKasir }}" style="display:flex;align-items:center;gap:12px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:13px;padding:13px;cursor:pointer;font-family:inherit;text-align:left;"><span style="width:36px;height:36px;border-radius:10px;background:#FFF1D9;display:flex;align-items:center;justify-content:center;color:#B07A12;font-size:12px;font-weight:800;letter-spacing:.5px;flex:none;">Rp</span><span style="font-size:13.5px;font-weight:700;color:#15171C;">Buka Mode Kasir</span></button>
+                  <sc-if value="{{ canManage }}" hint-placeholder-val="">
+                  <button onClick="{{ goManual }}" style="display:flex;align-items:center;gap:12px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:13px;padding:13px;cursor:pointer;font-family:inherit;text-align:left;"><span style="width:36px;height:36px;border-radius:10px;background:#EEF0F3;display:flex;align-items:center;justify-content:center;color:#454953;font-size:16px;font-weight:800;flex:none;">✎</span><span style="font-size:13.5px;font-weight:700;color:#15171C;">Input Manual</span></button>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- KASIR TWO-PANE -->
+          <sc-if value="{{ mainKasir }}" hint-placeholder-val="">
+          <div style="display:flex;height:100%;">
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;padding:24px 26px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <span style="font-size:22px;font-weight:800;color:#15171C;letter-spacing:-.4px;">Kasir</span>
+                <button onClick="{{ openKasirScan }}" style="display:flex;align-items:center;gap:9px;background:#15171C;border:none;border-radius:12px;padding:11px 16px;cursor:pointer;font-family:inherit;"><span style="color:#fff;font-size:16px;">⊡</span><span style="color:#fff;font-size:13.5px;font-weight:700;">Scan Barang</span></button>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #E6E8EC;border-radius:13px;padding:12px 15px;margin-bottom:16px;flex:none;">
+                <span style="color:#9AA0AA;font-size:16px;">⌕</span>
+                <input value="{{ kasirSearch }}" onChange="{{ onKasirSearch }}" placeholder="Cari produk atau SKU" style="flex:1;border:none;outline:none;font-size:14px;font-family:inherit;background:transparent;color:#15171C;" />
+              </div>
+              <div class="scr" style="flex:1;overflow-y:auto;">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:13px;">
+                  <sc-for list="{{ catalogList }}" as="p" hint-placeholder-count="6">
+                    <div style="background:#fff;border:1px solid #ECEEF1;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;">
+                      <div style="position:relative;">
+                        <image-slot id="{{ p.imgId }}" shape="rect" placeholder="+ Foto produk" style="width:100%;height:118px;display:block;background:#F1F2F4;font-size:11px;"></image-slot>
+                        <sc-if value="{{ p.hasCart }}" hint-placeholder-val="">
+                        <span style="position:absolute;top:8px;right:8px;min-width:24px;height:24px;border-radius:12px;background:#0E9F6E;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 7px;box-shadow:0 2px 6px rgba(0,0,0,.2);">{{ p.inCart }}</span>
+                        </sc-if>
+                        <sc-if value="{{ p.out }}" hint-placeholder-val="">
+                        <span style="position:absolute;inset:0;background:rgba(244,245,246,.8);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#C42B2B;">STOK HABIS</span>
+                        </sc-if>
+                      </div>
+                      <div style="padding:12px 13px 13px;display:flex;flex-direction:column;flex:1;">
+                        <div style="font-size:13.5px;font-weight:700;color:#15171C;line-height:1.3;min-height:35px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ p.name }}</div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+                          <span style="font-size:14px;font-weight:800;color:#0B7A52;">{{ p.sellLabel }}</span>
+                          <span style="font-size:11px;font-weight:700;color:{{ p.stockColor }};">{{ p.stockLabel }}</span>
+                        </div>
+                        <div style="margin-top:11px;">
+                          <sc-if value="{{ p.hasCart }}" hint-placeholder-val="">
+                          <div style="display:flex;align-items:center;justify-content:space-between;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:11px;padding:4px;">
+                            <button onClick="{{ p.minus }}" style="width:34px;height:34px;border-radius:9px;border:1px solid #E6E8EC;background:#fff;font-size:19px;color:#454953;cursor:pointer;font-family:inherit;">−</button>
+                            <span style="font-size:16px;font-weight:800;color:#15171C;">{{ p.inCart }}</span>
+                            <button onClick="{{ p.plus }}" style="width:34px;height:34px;border-radius:9px;border:1px solid #E6E8EC;background:#fff;font-size:19px;color:#454953;cursor:pointer;font-family:inherit;">+</button>
+                          </div>
+                          </sc-if>
+                          <sc-if value="{{ p.canAdd }}" hint-placeholder-val="">
+                          <button onClick="{{ p.add }}" style="width:100%;padding:10px;border-radius:11px;border:none;background:#E7F6EF;color:#0B7A52;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;">＋ Tambah</button>
+                          </sc-if>
+                          <sc-if value="{{ p.out }}" hint-placeholder-val="">
+                          <div style="width:100%;padding:10px;border-radius:11px;background:#F4F5F6;color:#B6BCC4;font-size:13.5px;font-weight:700;text-align:center;">Habis</div>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="width:372px;flex:none;background:#fff;border-left:1px solid #ECEEF1;display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 14px;flex:none;border-bottom:1px solid #F1F2F4;">
+                <span style="font-size:16px;font-weight:800;color:#15171C;">Pesanan</span>
+                <span style="font-size:12.5px;font-weight:700;color:#0B7A52;background:#E7F6EF;padding:4px 10px;border-radius:8px;">{{ cartItemsLabel }}</span>
+              </div>
+              <div class="scr" style="flex:1;overflow-y:auto;padding:14px 18px;">
+                <sc-if value="{{ cartEmpty }}" hint-placeholder-val="">
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;">
+                  <div style="width:56px;height:56px;border-radius:16px;background:#EEF0F3;display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><span style="font-size:24px;color:#B6BCC4;">⊞</span></div>
+                  <div style="font-size:14px;font-weight:700;color:#15171C;">Keranjang kosong</div>
+                  <div style="font-size:12.5px;color:#9AA0AA;margin-top:4px;line-height:1.5;">Tap produk di katalog<br/>untuk menambah pesanan</div>
+                </div>
+                </sc-if>
+                <sc-if value="{{ cartHas }}" hint-placeholder-val="">
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <sc-for list="{{ cartLines }}" as="l" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:11px;">
+                      <div style="flex:1;min-width:0;">
+                        <div style="font-size:13px;font-weight:700;color:#15171C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ l.name }}</div>
+                        <div style="font-size:12px;font-weight:700;color:#0B7A52;margin-top:2px;">{{ l.lineLabel }}</div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:7px;flex:none;">
+                        <button onClick="{{ l.minus }}" style="width:30px;height:30px;border-radius:8px;border:1px solid #E6E8EC;background:#F7F8F9;font-size:17px;color:#454953;cursor:pointer;font-family:inherit;">−</button>
+                        <span style="font-size:14px;font-weight:800;color:#15171C;min-width:18px;text-align:center;">{{ l.qty }}</span>
+                        <button onClick="{{ l.plus }}" style="width:30px;height:30px;border-radius:8px;border:1px solid #E6E8EC;background:#F7F8F9;font-size:17px;color:#454953;cursor:pointer;font-family:inherit;">+</button>
+                      </div>
+                      <button onClick="{{ l.remove }}" style="width:26px;height:26px;border-radius:8px;border:none;background:#F4F5F6;color:#9AA0AA;font-size:15px;cursor:pointer;font-family:inherit;flex:none;">×</button>
+                    </div>
+                  </sc-for>
+                </div>
+                </sc-if>
+              </div>
+              <div style="flex:none;padding:16px 18px 20px;border-top:1px solid #ECEEF1;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                  <span style="font-size:14px;color:#6B7280;font-weight:600;">Total</span>
+                  <span style="font-size:24px;font-weight:800;color:#15171C;letter-spacing:-.6px;">{{ cartTotalLabel }}</span>
+                </div>
+                <button onClick="{{ openPayment }}" style="width:100%;padding:15px;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;color:#fff;background:{{ payBg }};">{{ payLabel }}</button>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- STOCK TABLE -->
+          <sc-if value="{{ mainStock }}" hint-placeholder-val="">
+          <div class="scr" style="height:100%;overflow-y:auto;padding:26px 30px;">
+            <div style="font-size:22px;font-weight:800;color:#15171C;letter-spacing:-.4px;margin-bottom:16px;">Daftar Stok</div>
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+              <div style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #E6E8EC;border-radius:13px;padding:12px 15px;">
+                <span style="color:#9AA0AA;font-size:16px;">⌕</span>
+                <input value="{{ stockSearch }}" onChange="{{ onStockSearch }}" placeholder="Cari produk, brand, atau SKU" style="flex:1;border:none;outline:none;font-size:14px;font-family:inherit;background:transparent;color:#15171C;" />
+              </div>
+              <button onClick="{{ cycleSort }}" style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#454953;background:#fff;border:1px solid #E6E8EC;border-radius:12px;padding:11px 15px;cursor:pointer;font-family:inherit;flex:none;">⇅ Urut: {{ sortLabel }}</button>
+            </div>
+            <div class="scr" style="display:flex;gap:7px;overflow-x:auto;margin-bottom:16px;">
+              <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="6">
+                <button onClick="{{ c.select }}" style="flex:none;padding:8px 15px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <div style="background:#fff;border:1px solid #ECEEF1;border-radius:16px;overflow:hidden;">
+              <div style="display:flex;align-items:center;padding:13px 18px;border-bottom:1px solid #F1F2F4;font-size:11.5px;font-weight:700;color:#9AA0AA;text-transform:uppercase;letter-spacing:.4px;">
+                <span style="flex:2.4;">Produk</span>
+                <span style="flex:1;">Kategori</span>
+                <span style="flex:1;text-align:center;">Stok</span>
+                <span style="flex:1.1;text-align:right;">Harga Jual</span>
+                <sc-if value="{{ canSeeCost }}" hint-placeholder-val=""><span style="flex:1.1;text-align:right;">Harga Modal</span></sc-if>
+              </div>
+              <sc-for list="{{ stockList }}" as="p" hint-placeholder-count="8">
+                <button onClick="{{ p.open }}" style="display:flex;align-items:center;padding:13px 18px;border-bottom:1px solid #F4F5F6;cursor:pointer;font-family:inherit;text-align:left;width:100%;background:#fff;border-left:none;border-right:none;border-top:none;">
+                  <span style="flex:2.4;display:flex;align-items:center;gap:12px;min-width:0;">
+                    <span style="width:38px;height:38px;border-radius:10px;background:#F1F2F4;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#7A818C;flex:none;">{{ p.catShort }}</span>
+                    <span style="min-width:0;"><span style="display:block;font-size:13.5px;font-weight:700;color:#15171C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.productName }}</span><span style="display:block;font-size:11.5px;color:#9AA0AA;">{{ p.brandName }} · {{ p.sku }}</span></span>
+                  </span>
+                  <span style="flex:1;font-size:13px;color:#454953;font-weight:600;">{{ p.category }}</span>
+                  <span style="flex:1;text-align:center;"><span style="font-size:15px;font-weight:800;color:{{ p.stockColor }};">{{ p.stock }}</span></span>
+                  <span style="flex:1.1;text-align:right;font-size:13.5px;font-weight:700;color:#15171C;">{{ p.sellLabel }}</span>
+                  <sc-if value="{{ canSeeCost }}" hint-placeholder-val=""><span style="flex:1.1;text-align:right;font-size:13.5px;font-weight:600;color:#6B7280;">{{ p.costLabel }}</span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- STATISTICS -->
+          <sc-if value="{{ mainStats }}" hint-placeholder-val="">
+          <div class="scr" style="height:100%;overflow-y:auto;padding:26px 30px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <span style="font-size:22px;font-weight:800;color:#15171C;letter-spacing:-.4px;">Statistik</span>
+              <div class="scr" style="display:flex;gap:7px;">
+                <sc-for list="{{ rangeChips }}" as="r" hint-placeholder-count="4">
+                  <button onClick="{{ r.select }}" style="flex:none;padding:8px 15px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid {{ r.border }};background:{{ r.bg }};color:{{ r.color }};">{{ r.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;gap:18px;align-items:flex-start;">
+              <div style="flex:1.6;min-width:0;background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:20px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+                  <span style="font-size:15px;font-weight:800;color:#15171C;">Masuk vs Keluar / hari</span>
+                  <span style="display:flex;gap:14px;font-size:12px;font-weight:600;color:#6B7280;"><span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:#0E9F6E;"></span>Masuk</span><span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:#E2756F;"></span>Keluar</span></span>
+                </div>
+                <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;height:220px;">
+                  <sc-for list="{{ chartDays }}" as="d" hint-placeholder-count="7">
+                    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;">
+                      <div style="display:flex;align-items:flex-end;gap:5px;height:100%;width:100%;justify-content:center;">
+                        <div style="width:16px;background:#0E9F6E;border-radius:5px 5px 0 0;height:{{ d.inPct }};min-height:4px;"></div>
+                        <div style="width:16px;background:#E2756F;border-radius:5px 5px 0 0;height:{{ d.outPct }};min-height:4px;"></div>
+                      </div>
+                      <span style="font-size:11.5px;color:#9AA0AA;font-weight:600;">{{ d.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;gap:14px;">
+                  <div style="flex:1;background:#E7F6EF;border:1px solid #CDEBDD;border-radius:16px;padding:16px;"><div style="font-size:12px;color:#0B7A52;font-weight:600;">Total Masuk</div><div style="font-size:26px;font-weight:800;color:#0B7A52;margin-top:3px;letter-spacing:-.8px;">{{ sumIn }}</div></div>
+                  <div style="flex:1;background:#FDECEC;border:1px solid #F5D2D2;border-radius:16px;padding:16px;"><div style="font-size:12px;color:#C42B2B;font-weight:600;">Total Keluar</div><div style="font-size:26px;font-weight:800;color:#C42B2B;margin-top:3px;letter-spacing:-.8px;">{{ sumOut }}</div></div>
+                </div>
+                <div style="background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:17px;">
+                  <div style="font-size:14px;font-weight:800;color:#15171C;margin-bottom:12px;">Sumber Transaksi</div>
+                  <div style="display:flex;gap:11px;">
+                    <div style="flex:1;text-align:center;background:#E7EEFD;border-radius:12px;padding:13px;"><div style="font-size:22px;font-weight:800;color:#1D4ED8;">{{ scanCount }}</div><div style="font-size:11.5px;color:#1D4ED8;font-weight:600;margin-top:2px;">Scan</div></div>
+                    <div style="flex:1;text-align:center;background:#F0EAFB;border-radius:12px;padding:13px;"><div style="font-size:22px;font-weight:800;color:#6D28D9;">{{ manualCount }}</div><div style="font-size:11.5px;color:#6D28D9;font-weight:600;margin-top:2px;">Manual</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:20px;margin-top:18px;">
+              <div style="font-size:15px;font-weight:800;color:#15171C;margin-bottom:14px;">Top 5 Produk Terlaris</div>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <sc-for list="{{ topProducts }}" as="p" hint-placeholder-count="5">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">
+                      <span style="display:flex;align-items:center;gap:10px;min-width:0;"><span style="width:22px;height:22px;border-radius:7px;background:#15171C;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;">{{ p.rank }}</span><span style="font-size:13.5px;font-weight:700;color:#15171C;">{{ p.name }}</span></span>
+                      <span style="font-size:13.5px;font-weight:800;color:#15171C;">{{ p.qty }} unit</span>
+                    </div>
+                    <div style="height:8px;background:#F1F2F4;border-radius:4px;overflow:hidden;"><div style="height:100%;background:#0E9F6E;border-radius:4px;width:{{ p.pct }};"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- HISTORY TABLE -->
+          <sc-if value="{{ mainHistory }}" hint-placeholder-val="">
+          <div class="scr" style="height:100%;overflow-y:auto;padding:26px 30px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <span style="font-size:22px;font-weight:800;color:#15171C;letter-spacing:-.4px;">Riwayat Transaksi</span>
+              <button onClick="{{ exportCsv }}" style="font-size:13px;font-weight:700;color:#0E9F6E;background:#E7F6EF;border:none;border-radius:11px;padding:10px 16px;cursor:pointer;font-family:inherit;">↓ Ekspor CSV</button>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+              <div style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #E6E8EC;border-radius:13px;padding:12px 15px;">
+                <span style="color:#9AA0AA;font-size:16px;">⌕</span>
+                <input value="{{ histSearch }}" onChange="{{ onHistSearch }}" placeholder="Cari produk atau SKU" style="flex:1;border:none;outline:none;font-size:14px;font-family:inherit;background:transparent;color:#15171C;" />
+              </div>
+              <div class="scr" style="display:flex;gap:7px;">
+                <sc-for list="{{ histChips }}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{ c.select }}" style="flex:none;padding:9px 15px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};">{{ c.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #ECEEF1;border-radius:16px;overflow:hidden;">
+              <div style="display:flex;align-items:center;padding:13px 18px;border-bottom:1px solid #F1F2F4;font-size:11.5px;font-weight:700;color:#9AA0AA;text-transform:uppercase;letter-spacing:.4px;">
+                <span style="flex:2.2;">Produk</span>
+                <span style="flex:1;">Sumber</span>
+                <span style="flex:1.1;">Tanggal</span>
+                <span style="flex:.9;">User</span>
+                <span style="flex:.7;text-align:right;">Qty</span>
+              </div>
+              <sc-for list="{{ historyList }}" as="t" hint-placeholder-count="9">
+                <button onClick="{{ t.open }}" style="display:flex;align-items:center;padding:12px 18px;border-bottom:1px solid #F4F5F6;cursor:pointer;font-family:inherit;text-align:left;width:100%;background:#fff;border-left:none;border-right:none;border-top:none;">
+                  <span style="flex:2.2;display:flex;align-items:center;gap:11px;min-width:0;">
+                    <span style="width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none;background:{{ t.dotBg }};color:{{ t.dotColor }};">{{ t.arrow }}</span>
+                    <span style="min-width:0;"><span style="display:block;font-size:13.5px;font-weight:700;color:#15171C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ t.name }}</span><span style="display:block;font-size:11px;color:#9AA0AA;">{{ t.sku }} · {{ t.typeLabel }}</span></span>
+                  </span>
+                  <span style="flex:1;"><span style="font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:6px;background:{{ t.srcBg }};color:{{ t.srcColor }};">{{ t.sourceLabel }}</span></span>
+                  <span style="flex:1.1;font-size:12.5px;color:#6B7280;">{{ t.date }}</span>
+                  <span style="flex:.9;font-size:12.5px;color:#454953;font-weight:600;">{{ t.userName }}</span>
+                  <span style="flex:.7;text-align:right;font-size:14px;font-weight:800;color:{{ t.dotColor }};">{{ t.qtyLabel }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- MANUAL HOME -->
+          <sc-if value="{{ mainManual }}" hint-placeholder-val="">
+          <div class="scr" style="height:100%;overflow-y:auto;padding:26px 30px;">
+            <div style="font-size:22px;font-weight:800;color:#15171C;letter-spacing:-.4px;">Input Manual</div>
+            <div style="font-size:14px;color:#6B7280;margin-top:6px;margin-bottom:22px;">Pilih jenis transaksi yang ingin diinput tanpa scan barcode.</div>
+            <div style="display:flex;gap:18px;max-width:720px;">
+              <button onClick="{{ startManualIn }}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:14px;background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:24px;cursor:pointer;font-family:inherit;text-align:left;">
+                <span style="width:50px;height:50px;border-radius:14px;background:#E7F6EF;display:flex;align-items:center;justify-content:center;"><span style="color:#0B7A52;font-size:24px;font-weight:800;">↓</span></span>
+                <span><span style="display:block;font-size:17px;font-weight:800;color:#15171C;">Input Masuk</span><span style="display:block;font-size:13px;color:#6B7280;margin-top:3px;">Tambah stok produk lama atau daftarkan produk baru.</span></span>
+              </button>
+              <button onClick="{{ startManualOut }}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:14px;background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:24px;cursor:pointer;font-family:inherit;text-align:left;">
+                <span style="width:50px;height:50px;border-radius:14px;background:#FDECEC;display:flex;align-items:center;justify-content:center;"><span style="color:#C42B2B;font-size:24px;font-weight:800;">↑</span></span>
+                <span><span style="display:block;font-size:17px;font-weight:800;color:#15171C;">Input Keluar</span><span style="display:block;font-size:13px;color:#6B7280;margin-top:3px;">Kurangi stok untuk penjualan atau penyesuaian.</span></span>
+              </button>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- SETTINGS -->
+          <sc-if value="{{ mainSettings }}" hint-placeholder-val="">
+          <div class="scr" style="height:100%;overflow-y:auto;padding:26px 30px;">
+            <div style="font-size:22px;font-weight:800;color:#15171C;letter-spacing:-.4px;margin-bottom:20px;">Pengaturan</div>
+            <div style="max-width:560px;background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:22px;">
+              <div style="font-size:15px;font-weight:800;color:#15171C;">Ambang Stok Minimum Global</div>
+              <div style="font-size:13px;color:#6B7280;margin-top:5px;line-height:1.5;">Produk dengan stok di bawah angka ini akan ditandai sebagai stok menipis di seluruh aplikasi.</div>
+              <div style="display:flex;align-items:center;gap:16px;margin-top:20px;">
+                <button onClick="{{ thrMinus }}" style="width:52px;height:52px;border-radius:14px;border:1px solid #E6E8EC;background:#F7F8F9;font-size:26px;color:#454953;cursor:pointer;font-family:inherit;">−</button>
+                <div style="flex:1;text-align:center;"><div style="font-size:42px;font-weight:800;color:#15171C;letter-spacing:-1.5px;line-height:1;">{{ threshold }}</div><div style="font-size:11.5px;color:#9AA0AA;font-weight:700;margin-top:3px;">unit</div></div>
+                <button onClick="{{ thrPlus }}" style="width:52px;height:52px;border-radius:14px;border:1px solid #E6E8EC;background:#F7F8F9;font-size:26px;color:#454953;cursor:pointer;font-family:inherit;">+</button>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ FLOW OVERLAY (scan/manual) ============ -->
+      <sc-if value="{{ showFlowAny }}" hint-placeholder-val="">
+      <div style="position:absolute;inset:0;background:rgba(10,11,13,.45);z-index:50;display:flex;align-items:center;justify-content:center;animation:fade .2s ease;padding:30px;">
+
+        <!-- camera -->
+        <sc-if value="{{ showCamera }}" hint-placeholder-val="">
+        <div style="width:460px;background:#111317;border-radius:22px;overflow:hidden;animation:pop .25s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px;">
+            <span style="font-size:16px;font-weight:800;color:#fff;">{{ flowTitle }}</span>
+            <button onClick="{{ cancelFlow }}" style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);font-size:16px;color:#fff;cursor:pointer;font-family:inherit;">✕</button>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;padding:6px 30px 22px;">
+            <div style="position:relative;width:230px;height:200px;border-radius:20px;background:rgba(255,255,255,.04);overflow:hidden;border:1px solid rgba(255,255,255,.1);">
+              <div style="position:absolute;left:16px;top:16px;width:30px;height:30px;border-left:3px solid #2BD49B;border-top:3px solid #2BD49B;border-radius:9px 0 0 0;"></div>
+              <div style="position:absolute;right:16px;top:16px;width:30px;height:30px;border-right:3px solid #2BD49B;border-top:3px solid #2BD49B;border-radius:0 9px 0 0;"></div>
+              <div style="position:absolute;left:16px;bottom:16px;width:30px;height:30px;border-left:3px solid #2BD49B;border-bottom:3px solid #2BD49B;border-radius:0 0 0 9px;"></div>
+              <div style="position:absolute;right:16px;bottom:16px;width:30px;height:30px;border-right:3px solid #2BD49B;border-bottom:3px solid #2BD49B;border-radius:0 0 9px 0;"></div>
+              <div style="position:absolute;left:14%;right:14%;height:2px;background:#2BD49B;box-shadow:0 0 14px 2px #2BD49B;animation:scanline 2.4s ease-in-out infinite;"></div>
+            </div>
+            <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:16px;">Arahkan kamera ke barcode produk</div>
+          </div>
+          <div style="padding:0 18px 20px;">
+            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;">Simulasi scan — pilih barcode</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <sc-for list="{{ sampleScans }}" as="s" hint-placeholder-count="3">
+                <button onClick="{{ s.scan }}" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:11px 14px;cursor:pointer;font-family:inherit;text-align:left;">
+                  <span style="font-family:monospace;font-size:11px;letter-spacing:2px;color:#2BD49B;flex:none;">|||‖|</span>
+                  <span style="flex:1;min-width:0;"><span style="display:block;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ s.label }}</span><span style="display:block;font-size:11px;color:rgba(255,255,255,.45);">{{ s.sku }}</span></span>
+                  <span style="color:rgba(255,255,255,.3);font-size:16px;">›</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- result / form -->
+        <sc-if value="{{ showFlowResult }}" hint-placeholder-val="">
+        <div class="scr" style="width:480px;max-height:760px;overflow-y:auto;background:#fff;border-radius:22px;animation:pop .25s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 12px;position:sticky;top:0;background:#fff;">
+            <span style="font-size:17px;font-weight:800;color:#15171C;">{{ flowTitle }}</span>
+            <button onClick="{{ cancelFlow }}" style="width:34px;height:34px;border-radius:10px;border:1px solid #E6E8EC;background:#fff;font-size:15px;color:#454953;cursor:pointer;font-family:inherit;">✕</button>
+          </div>
+          <div style="padding:0 20px 22px;">
+            <sc-if value="{{ flowAlert }}" hint-placeholder-val="">
+            <div style="background:#FDECEC;border:1px solid #F5D2D2;border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;"><span style="width:34px;height:34px;border-radius:10px;background:#F5C0C0;color:#A82020;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;">!</span><span style="flex:1;font-size:14px;font-weight:700;color:#A82020;">{{ flowAlert }}</span></div>
+            <button onClick="{{ backToCamera }}" style="width:100%;margin-top:14px;padding:14px;background:#15171C;color:#fff;border:none;border-radius:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Scan Produk Lain</button>
+            </sc-if>
+
+            <sc-if value="{{ flowShowProduct }}" hint-placeholder-val="">
+            <div style="background:#F7F8F9;border:1px solid #ECEEF1;border-radius:14px;padding:16px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="min-width:0;flex:1;"><div style="font-size:16px;font-weight:800;color:#15171C;">{{ flowProd.productName }}</div><div style="font-size:12.5px;color:#6B7280;margin-top:2px;">{{ flowProd.brandName }} · {{ flowProd.sku }}</div></div>
+                <div style="text-align:right;flex:none;margin-left:10px;"><div style="font-size:22px;font-weight:800;color:#15171C;">{{ flowProd.stock }}</div><div style="font-size:10.5px;color:#9AA0AA;font-weight:700;">stok kini</div></div>
+              </div>
+              <div style="display:flex;gap:18px;margin-top:13px;padding-top:13px;border-top:1px solid #E8EAED;">
+                <div><div style="font-size:11.5px;color:#6B7280;font-weight:600;">Harga Jual</div><div style="font-size:14px;font-weight:800;color:#0B7A52;margin-top:2px;">{{ flowProd.sellLabel }}</div></div>
+                <sc-if value="{{ flowShowCost }}" hint-placeholder-val=""><div><div style="font-size:11.5px;color:#6B7280;font-weight:600;">Harga Modal</div><div style="font-size:14px;font-weight:800;color:#15171C;margin-top:2px;">{{ flowProd.costLabel }}</div></div></sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ flowIsIn }}" hint-placeholder-val="">
+            <div style="display:flex;gap:11px;margin-top:12px;">
+              <div style="flex:1;"><label style="font-size:12.5px;font-weight:600;color:#454953;">Harga Modal</label><input value="{{ fCost }}" onChange="{{ onFCost }}" inputmode="numeric" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+              <div style="flex:1;"><label style="font-size:12.5px;font-weight:600;color:#454953;">Harga Jual</label><input value="{{ fSell }}" onChange="{{ onFSell }}" inputmode="numeric" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+            </div>
+            </sc-if>
+            <div style="margin-top:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:#15171C;">{{ qtyLabel }}</span><sc-if value="{{ flowIsOut }}" hint-placeholder-val=""><span style="font-size:11.5px;color:#9AA0AA;font-weight:600;">maks {{ flowProd.stock }}</span></sc-if></div>
+              <div style="display:flex;align-items:center;gap:14px;margin-top:9px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:14px;padding:8px;">
+                <button onClick="{{ qtyMinus }}" style="width:46px;height:46px;border-radius:11px;border:1px solid #E6E8EC;background:#fff;font-size:24px;color:#454953;cursor:pointer;font-family:inherit;">−</button>
+                <span style="flex:1;text-align:center;font-size:26px;font-weight:800;color:#15171C;">{{ flowQty }}</span>
+                <button onClick="{{ qtyPlus }}" style="width:46px;height:46px;border-radius:11px;border:1px solid #E6E8EC;background:#fff;font-size:24px;color:#454953;cursor:pointer;font-family:inherit;">+</button>
+              </div>
+            </div>
+            <sc-if value="{{ flowIsManual }}" hint-placeholder-val="">
+            <div style="margin-top:14px;"><label style="font-size:12.5px;font-weight:600;color:#454953;">Keterangan (opsional)</label><input value="{{ fNotes }}" onChange="{{ onFNotes }}" placeholder="mis. restok mingguan" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+            </sc-if>
+            <button onClick="{{ confirmFlow }}" style="width:100%;margin-top:20px;padding:15px;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;color:#fff;background:{{ confirmBg }};">{{ confirmLabel }}</button>
+            </sc-if>
+
+            <sc-if value="{{ flowShowNewForm }}" hint-placeholder-val="">
+            <div style="background:#E7EEFD;border:1px solid #CBDAF8;border-radius:13px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:16px;"><span style="font-size:16px;">✦</span><span style="font-size:12.5px;font-weight:600;color:#1D4ED8;">SKU belum terdaftar — tambah sebagai produk baru.</span></div>
+            <div style="display:flex;flex-direction:column;gap:13px;">
+              <div style="display:flex;gap:11px;">
+                <div style="flex:1;"><label style="font-size:12.5px;font-weight:600;color:#454953;">SKU</label><input value="{{ fSku }}" onChange="{{ onFSku }}" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+                <div style="flex:1;"><label style="font-size:12.5px;font-weight:600;color:#454953;">Nama Brand</label><input value="{{ fBrand }}" onChange="{{ onFBrand }}" placeholder="mis. SMOK" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+              </div>
+              <div><label style="font-size:12.5px;font-weight:600;color:#454953;">Nama Produk</label><input value="{{ fName }}" onChange="{{ onFName }}" placeholder="mis. Nord 5 Pod Kit" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+              <div><label style="font-size:12.5px;font-weight:600;color:#454953;">Kategori</label><div class="scr" style="display:flex;gap:7px;overflow-x:auto;margin-top:8px;"><sc-for list="{{ newCatChips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.select }}" style="flex:none;padding:8px 14px;border-radius:11px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};">{{ c.label }}</button></sc-for></div></div>
+              <div style="display:flex;gap:11px;">
+                <div style="flex:1;"><label style="font-size:12.5px;font-weight:600;color:#454953;">Harga Modal</label><input value="{{ fCost }}" onChange="{{ onFCost }}" inputmode="numeric" placeholder="0" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+                <div style="flex:1;"><label style="font-size:12.5px;font-weight:600;color:#454953;">Harga Jual</label><input value="{{ fSell }}" onChange="{{ onFSell }}" inputmode="numeric" placeholder="0" style="width:100%;margin-top:6px;padding:12px 13px;border:1px solid #E2E4E8;border-radius:12px;font-size:14px;font-family:inherit;outline:none;background:#fff;" /></div>
+              </div>
+              <div><label style="font-size:12.5px;font-weight:600;color:#454953;">Quantity Awal</label><div style="display:flex;align-items:center;gap:14px;margin-top:7px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:12px;padding:7px;"><button onClick="{{ qtyMinus }}" style="width:42px;height:42px;border-radius:10px;border:1px solid #E6E8EC;background:#fff;font-size:22px;color:#454953;cursor:pointer;font-family:inherit;">−</button><span style="flex:1;text-align:center;font-size:22px;font-weight:800;color:#15171C;">{{ flowQty }}</span><button onClick="{{ qtyPlus }}" style="width:42px;height:42px;border-radius:10px;border:1px solid #E6E8EC;background:#fff;font-size:22px;color:#454953;cursor:pointer;font-family:inherit;">+</button></div></div>
+              <button onClick="{{ saveNewProduct }}" style="width:100%;margin-top:4px;padding:15px;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;color:#fff;background:#0E9F6E;">Simpan Produk Baru</button>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- flow done -->
+        <sc-if value="{{ showFlowDone }}" hint-placeholder-val="">
+        <div style="width:420px;background:#fff;border-radius:22px;padding:32px 28px;animation:pop .25s ease;text-align:center;">
+          <div style="width:64px;height:64px;border-radius:50%;background:#E7F6EF;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;"><span style="color:#0E9F6E;font-size:32px;font-weight:800;">✓</span></div>
+          <div style="font-size:20px;font-weight:800;color:#15171C;">{{ doneTitle }}</div>
+          <div style="background:#F7F8F9;border:1px solid #ECEEF1;border-radius:16px;padding:4px 18px;margin-top:20px;text-align:left;">
+            <sc-for list="{{ doneRows }}" as="r" hint-placeholder-count="3"><div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid {{ r.border }};"><span style="font-size:13px;color:#6B7280;font-weight:600;">{{ r.label }}</span><span style="font-size:14px;color:#15171C;font-weight:800;">{{ r.value }}</span></div></sc-for>
+          </div>
+          <button onClick="{{ flowAgain }}" style="width:100%;margin-top:20px;padding:14px;background:#0E9F6E;color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">{{ againLabel }}</button>
+          <button onClick="{{ flowFinish }}" style="width:100%;margin-top:10px;padding:14px;background:#fff;color:#454953;border:1px solid #E6E8EC;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">Selesai</button>
+        </div>
+        </sc-if>
+
+      </div>
+      </sc-if>
+
+      <!-- ============ PAYMENT MODAL ============ -->
+      <sc-if value="{{ showPayment }}" hint-placeholder-val="">
+      <div style="position:absolute;inset:0;background:rgba(10,11,13,.45);z-index:50;display:flex;align-items:center;justify-content:center;animation:fade .2s ease;padding:30px;">
+        <div style="width:600px;background:#fff;border-radius:22px;overflow:hidden;animation:pop .25s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #F1F2F4;">
+            <span style="font-size:18px;font-weight:800;color:#15171C;">Pembayaran</span>
+            <button onClick="{{ backToKasir }}" style="width:34px;height:34px;border-radius:10px;border:1px solid #E6E8EC;background:#fff;font-size:15px;color:#454953;cursor:pointer;font-family:inherit;">✕</button>
+          </div>
+          <div style="display:flex;">
+            <div style="flex:1;padding:22px;border-right:1px solid #F1F2F4;">
+              <div style="background:#15171C;border-radius:16px;padding:18px;text-align:center;"><div style="font-size:12.5px;color:rgba(255,255,255,.6);font-weight:600;">Total Tagihan</div><div style="font-size:30px;font-weight:800;color:#fff;letter-spacing:-1px;margin-top:5px;">{{ payTotalLabel }}</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:3px;">{{ cartItemsLabel }}</div></div>
+              <div style="font-size:13px;font-weight:700;color:#15171C;margin:20px 0 11px;">Metode Pembayaran</div>
+              <div style="display:flex;align-items:center;gap:12px;background:#E7F6EF;border:1.5px solid #0E9F6E;border-radius:13px;padding:13px;"><span style="width:36px;height:36px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;font-size:13px;font-weight:800;color:#0B7A52;letter-spacing:.5px;">Rp</span><span style="flex:1;"><span style="display:block;font-size:14px;font-weight:800;color:#15171C;">Tunai</span><span style="display:block;font-size:12px;color:#0B7A52;">Bayar dengan uang tunai</span></span><span style="width:22px;height:22px;border-radius:50%;background:#0E9F6E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none;">✓</span></div>
+              <div style="display:flex;gap:9px;margin-top:9px;">
+                <div style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #ECEEF1;border-radius:12px;padding:11px;opacity:.55;"><span style="font-size:15px;color:#9AA0AA;">▦</span><span style="font-size:13px;font-weight:700;color:#15171C;flex:1;">QRIS</span><span style="font-size:9.5px;font-weight:800;color:#9AA0AA;">Segera</span></div>
+                <div style="flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #ECEEF1;border-radius:12px;padding:11px;opacity:.55;"><span style="font-size:15px;color:#9AA0AA;">▭</span><span style="font-size:13px;font-weight:700;color:#15171C;flex:1;">Kartu</span><span style="font-size:9.5px;font-weight:800;color:#9AA0AA;">Segera</span></div>
+              </div>
+            </div>
+            <div style="flex:1;padding:22px;display:flex;flex-direction:column;">
+              <div style="font-size:13px;font-weight:700;color:#15171C;margin-bottom:11px;">Uang Diterima</div>
+              <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #E2E4E8;border-radius:14px;padding:14px 16px;"><span style="font-size:18px;font-weight:800;color:#9AA0AA;">Rp</span><input value="{{ payCash }}" onChange="{{ onPayCash }}" inputmode="numeric" placeholder="0" style="flex:1;border:none;outline:none;font-size:22px;font-weight:800;font-family:inherit;background:transparent;color:#15171C;width:100%;" /></div>
+              <div class="scr" style="display:flex;gap:7px;overflow-x:auto;margin-top:11px;flex-wrap:wrap;">
+                <sc-for list="{{ cashChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.set }}" style="flex:none;padding:9px 14px;border-radius:11px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid #E6E8EC;background:#fff;color:#15171C;">{{ c.label }}</button></sc-for>
+              </div>
+              <div style="flex:1;"></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:14px;padding:15px 16px;"><span style="font-size:14px;font-weight:700;color:#454953;">Kembalian</span><span style="font-size:22px;font-weight:800;letter-spacing:-.5px;color:{{ changeColor }};">{{ changeLabel }}</span></div>
+              <button onClick="{{ confirmPayment }}" style="width:100%;margin-top:14px;padding:15px;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;color:#fff;background:{{ payBtnBg }};">Konfirmasi Pembayaran</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ RECEIPT MODAL ============ -->
+      <sc-if value="{{ showKasirDone }}" hint-placeholder-val="">
+      <div style="position:absolute;inset:0;background:rgba(10,11,13,.45);z-index:50;display:flex;align-items:center;justify-content:center;animation:fade .2s ease;padding:30px;">
+        <div class="scr" style="width:380px;max-height:780px;overflow-y:auto;background:#F4F5F6;border-radius:22px;padding:22px;animation:pop .25s ease;">
+          <div style="text-align:center;margin-bottom:16px;">
+            <div style="width:56px;height:56px;border-radius:50%;background:#E7F6EF;display:flex;align-items:center;justify-content:center;margin:0 auto 11px;"><span style="color:#0E9F6E;font-size:28px;font-weight:800;">✓</span></div>
+            <div style="font-size:19px;font-weight:800;color:#15171C;">Pembayaran Berhasil</div>
+            <div style="font-size:13px;color:#9AA0AA;margin-top:4px;">Kembalian {{ kasirChangeLabel }}</div>
+          </div>
+          <div id="struk" style="background:#fff;border:1px solid #ECEEF1;border-radius:14px;padding:20px 18px;font-family:'Menlo','Consolas','Courier New',monospace;color:#1A1C20;">
+            <div style="text-align:center;"><div style="font-size:16px;font-weight:800;letter-spacing:1px;">STOKVAPE</div><div style="font-size:10.5px;color:#6B7280;margin-top:3px;line-height:1.5;">Jl. Merdeka No. 88, Jakarta<br/>0812-3456-7890</div></div>
+            <div style="border-top:1px dashed #C4C8CE;margin:14px 0;"></div>
+            <div style="font-size:11px;line-height:1.9;color:#454953;"><div style="display:flex;justify-content:space-between;"><span>No</span><span style="color:#1A1C20;font-weight:700;">{{ kasirTrx }}</span></div><div style="display:flex;justify-content:space-between;"><span>Tanggal</span><span style="color:#1A1C20;">18 Jun 2026 · {{ kasirTime }}</span></div><div style="display:flex;justify-content:space-between;"><span>Kasir</span><span style="color:#1A1C20;">{{ kasirCashier }}</span></div></div>
+            <div style="border-top:1px dashed #C4C8CE;margin:14px 0;"></div>
+            <div style="display:flex;flex-direction:column;gap:9px;"><sc-for list="{{ strukLines }}" as="l" hint-placeholder-count="2"><div><div style="font-size:11.5px;font-weight:700;color:#1A1C20;">{{ l.name }}</div><div style="display:flex;justify-content:space-between;font-size:11px;color:#6B7280;margin-top:2px;"><span>{{ l.qtyPrice }}</span><span style="color:#1A1C20;font-weight:700;">{{ l.sub }}</span></div></div></sc-for></div>
+            <div style="border-top:1px dashed #C4C8CE;margin:14px 0;"></div>
+            <div style="font-size:12px;line-height:2;"><div style="display:flex;justify-content:space-between;font-weight:800;font-size:14px;"><span>TOTAL</span><span>{{ kasirTotalLabel }}</span></div><div style="display:flex;justify-content:space-between;color:#454953;"><span>Tunai</span><span style="color:#1A1C20;font-weight:700;">{{ kasirCashLabel }}</span></div><div style="display:flex;justify-content:space-between;color:#454953;"><span>Kembalian</span><span style="color:#1A1C20;font-weight:700;">{{ kasirChangeLabel }}</span></div></div>
+            <div style="border-top:1px dashed #C4C8CE;margin:14px 0;"></div>
+            <div style="text-align:center;font-size:11px;color:#6B7280;line-height:1.6;">Terima kasih atas kunjungan Anda<br/>Barang yang sudah dibeli<br/>tidak dapat ditukar</div>
+          </div>
+          <button onClick="{{ printReceipt }}" style="width:100%;margin-top:16px;padding:14px;background:#15171C;color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;"><span style="font-size:16px;">⎙</span> Simpan Struk (PDF)</button>
+          <button onClick="{{ kasirAgain }}" style="width:100%;margin-top:9px;padding:14px;background:#0E9F6E;color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">Transaksi Baru</button>
+          <button onClick="{{ kasirFinish }}" style="width:100%;margin-top:9px;padding:14px;background:#fff;color:#454953;border:1px solid #E6E8EC;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">Kembali ke Beranda</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ STOCK DETAIL MODAL ============ -->
+      <sc-if value="{{ showStockDetail }}" hint-placeholder-val="">
+      <div onClick="{{ backToStock }}" style="position:absolute;inset:0;background:rgba(10,11,13,.45);z-index:50;display:flex;align-items:center;justify-content:center;animation:fade .2s ease;padding:30px;">
+        <div onClick="{{ stop }}" class="scr" style="width:540px;max-height:760px;overflow-y:auto;background:#fff;border-radius:22px;animation:pop .25s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px 12px;position:sticky;top:0;background:#fff;"><span style="font-size:17px;font-weight:800;color:#15171C;">Detail Produk</span><button onClick="{{ backToStock }}" style="width:34px;height:34px;border-radius:10px;border:1px solid #E6E8EC;background:#fff;font-size:15px;color:#454953;cursor:pointer;font-family:inherit;">✕</button></div>
+          <div style="padding:0 22px 24px;">
+            <div style="background:#F7F8F9;border:1px solid #ECEEF1;border-radius:16px;padding:18px;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+                <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:#0B7A52;background:#E7F6EF;display:inline-block;padding:3px 9px;border-radius:7px;">{{ detail.category }}</div><div style="font-size:20px;font-weight:800;color:#15171C;margin-top:9px;">{{ detail.productName }}</div><div style="font-size:13px;color:#6B7280;margin-top:3px;">{{ detail.brandName }} · {{ detail.sku }}</div></div>
+                <div style="text-align:right;"><div style="font-size:34px;font-weight:800;color:{{ detail.stockColor }};letter-spacing:-1.5px;line-height:1;">{{ detail.stock }}</div><div style="font-size:11px;font-weight:700;color:#9AA0AA;margin-top:2px;">stok</div></div>
+              </div>
+              <div style="height:1px;background:#E8EAED;margin:16px 0;"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div><div style="font-size:12px;color:#6B7280;font-weight:600;">Harga Jual</div><div style="font-size:16px;font-weight:800;color:#15171C;margin-top:3px;">{{ detail.sellLabel }}</div></div>
+                <sc-if value="{{ canSeeCost }}" hint-placeholder-val=""><div><div style="font-size:12px;color:#6B7280;font-weight:600;">Harga Modal</div><div style="font-size:16px;font-weight:800;color:#15171C;margin-top:3px;">{{ detail.costLabel }}</div></div></sc-if>
+                <div><div style="font-size:12px;color:#6B7280;font-weight:600;">Ambang Minimum</div><div style="font-size:16px;font-weight:800;color:#15171C;margin-top:3px;">{{ detail.threshold }}</div></div>
+                <div><div style="font-size:12px;color:#6B7280;font-weight:600;">Diperbarui</div><div style="font-size:16px;font-weight:800;color:#15171C;margin-top:3px;">{{ detail.updated }}</div></div>
+              </div>
+            </div>
+            <sc-if value="{{ canManage }}" hint-placeholder-val=""><button onClick="{{ snackEdit }}" style="width:100%;margin-top:11px;padding:13px;background:#fff;border:1px solid #E6E8EC;border-radius:13px;font-size:14px;font-weight:700;color:#454953;cursor:pointer;font-family:inherit;">✎ Edit Info Produk</button></sc-if>
+            <div style="font-size:14px;font-weight:700;color:#15171C;margin:20px 0 11px;">Riwayat Transaksi</div>
+            <div style="display:flex;flex-direction:column;gap:9px;">
+              <sc-for list="{{ detailTxns }}" as="t" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:12px;background:#F7F8F9;border:1px solid #ECEEF1;border-radius:13px;padding:12px 13px;"><span style="width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none;background:{{ t.dotBg }};color:{{ t.dotColor }};">{{ t.arrow }}</span><span style="flex:1;"><span style="display:block;font-size:13px;font-weight:700;color:#15171C;">{{ t.typeLabel }} · {{ t.qtyAbs }} unit</span><span style="display:block;font-size:11.5px;color:#9AA0AA;margin-top:1px;">{{ t.date }} · {{ t.userName }}</span></span><span style="font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;background:{{ t.srcBg }};color:{{ t.srcColor }};">{{ t.sourceLabel }}</span></div></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ HISTORY DETAIL MODAL ============ -->
+      <sc-if value="{{ showHistoryDetail }}" hint-placeholder-val="">
+      <div onClick="{{ backToHistory }}" style="position:absolute;inset:0;background:rgba(10,11,13,.45);z-index:50;display:flex;align-items:center;justify-content:center;animation:fade .2s ease;padding:30px;">
+        <div onClick="{{ stop }}" class="scr" style="width:460px;max-height:740px;overflow-y:auto;background:#fff;border-radius:22px;animation:pop .25s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px 12px;"><span style="font-size:17px;font-weight:800;color:#15171C;">Detail Transaksi</span><button onClick="{{ backToHistory }}" style="width:34px;height:34px;border-radius:10px;border:1px solid #E6E8EC;background:#fff;font-size:15px;color:#454953;cursor:pointer;font-family:inherit;">✕</button></div>
+          <div style="padding:0 22px 24px;">
+            <div style="background:#F7F8F9;border:1px solid #ECEEF1;border-radius:16px;padding:18px;text-align:center;">
+              <div style="width:54px;height:54px;border-radius:15px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;background:{{ txn.dotBg }};color:{{ txn.dotColor }};">{{ txn.arrow }}</div>
+              <div style="font-size:22px;font-weight:800;color:{{ txn.dotColor }};">{{ txn.qtyLabel }} unit</div>
+              <div style="font-size:14px;font-weight:700;color:#15171C;margin-top:6px;">{{ txn.name }}</div>
+              <div style="display:flex;gap:7px;justify-content:center;margin-top:10px;"><span style="font-size:11px;font-weight:800;padding:4px 10px;border-radius:7px;background:{{ txn.srcBg }};color:{{ txn.srcColor }};">{{ txn.sourceLabel }}</span><span style="font-size:11px;font-weight:800;padding:4px 10px;border-radius:7px;background:#EEF0F3;color:#454953;">{{ txn.typeLabel }}</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #ECEEF1;border-radius:16px;padding:4px 18px;margin-top:12px;">
+              <sc-for list="{{ txnRows }}" as="r" hint-placeholder-count="6"><div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid {{ r.border }};"><span style="font-size:13px;color:#6B7280;font-weight:600;">{{ r.label }}</span><span style="font-size:13px;color:#15171C;font-weight:700;text-align:right;max-width:60%;">{{ r.value }}</span></div></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ SNACKBAR ============ -->
+      <sc-if value="{{ snackbar }}" hint-placeholder-val="">
+      <div style="position:absolute;left:50%;bottom:30px;transform:translateX(-50%);background:#15171C;color:#fff;font-size:13px;font-weight:600;padding:13px 20px;border-radius:13px;box-shadow:0 12px 28px -8px rgba(0,0,0,.4);z-index:70;animation:toastIn .3s cubic-bezier(.2,.8,.2,1);white-space:nowrap;">{{ snackbar }}</div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1208,&quot;height&quot;:868}}">
+class Component extends DCLogic {
+  state = {
+    user: null,
+    screen: 'login',
+    tab: 'dashboard',
+    loginUser: 'budi', loginPass: 'demo123',
+    stockSearch: '', stockCat: 'Semua', stockSort: 'name',
+    selectedSku: null,
+    histSearch: '', histFilter: 'Semua',
+    selectedTxnId: null,
+    threshold: 5,
+    showScanSheet: false, showProfileSheet: false,
+    cart: [], showCart: false, kasirSearch: '', payCash: '', kasirDoneInfo: null,
+    snackbar: null,
+    flowMode: null, flowStage: null, flowSku: null, flowFound: null,
+    flowQty: 1, fCost: '', fSell: '', fNotes: '',
+    fSku: '', fBrand: '', fName: '', fCat: 'Device',
+    doneInfo: null,
+    products: [
+      { sku:'VP-001', brandName:'SMOK', productName:'Nord 5 Pod Kit', category:'Device', stock:12, costPrice:180000, sellingPrice:320000, threshold:5, updated:'18 Jun' },
+      { sku:'VP-002', brandName:'Vaporesso', productName:'XROS 3 Pod Kit', category:'Device', stock:4, costPrice:150000, sellingPrice:270000, threshold:5, updated:'16 Jun' },
+      { sku:'VP-003', brandName:'Freebase', productName:'Liquid Mango Ice 60ml', category:'Liquid', stock:24, costPrice:65000, sellingPrice:120000, threshold:6, updated:'18 Jun' },
+      { sku:'VP-004', brandName:'Saltnic', productName:'Liquid Mint 30ml', category:'Liquid', stock:3, costPrice:55000, sellingPrice:95000, threshold:6, updated:'13 Jun' },
+      { sku:'VP-005', brandName:'SMOK', productName:'RPM Coil 0.4Ω', category:'Coil', stock:40, costPrice:18000, sellingPrice:35000, threshold:10, updated:'17 Jun' },
+      { sku:'VP-006', brandName:'Uwell', productName:'Caliburn G3 Pod', category:'Device', stock:8, costPrice:165000, sellingPrice:290000, threshold:5, updated:'18 Jun' },
+      { sku:'VP-007', brandName:'Freebase', productName:'Liquid Tobacco 60ml', category:'Liquid', stock:18, costPrice:65000, sellingPrice:120000, threshold:6, updated:'18 Jun' },
+      { sku:'VP-008', brandName:'GeekVape', productName:'Aegis Coil 0.6Ω', category:'Coil', stock:2, costPrice:20000, sellingPrice:38000, threshold:10, updated:'18 Jun' },
+      { sku:'VP-009', brandName:'Cotton Bacon', productName:'Organic Cotton V2', category:'Aksesori', stock:15, costPrice:25000, sellingPrice:45000, threshold:8, updated:'15 Jun' },
+      { sku:'VP-010', brandName:'Sony', productName:'VTC6 Baterai 18650', category:'Baterai', stock:30, costPrice:75000, sellingPrice:130000, threshold:8, updated:'17 Jun' },
+    ],
+    transactions: [
+      { id:16, sku:'VP-007', type:'OUT', source:'MANUAL', qty:3, cost:65000, sell:120000, notes:'Penjualan event komunitas', userId:1, day:6, time:'18:40' },
+      { id:15, sku:'VP-008', type:'IN', source:'SCAN', qty:2, cost:20000, sell:38000, notes:null, userId:2, day:6, time:'17:05' },
+      { id:14, sku:'VP-001', type:'OUT', source:'SCAN', qty:1, cost:180000, sell:320000, notes:null, userId:3, day:6, time:'15:22' },
+      { id:13, sku:'VP-006', type:'OUT', source:'SCAN', qty:2, cost:165000, sell:290000, notes:null, userId:3, day:6, time:'11:10' },
+      { id:12, sku:'VP-004', type:'IN', source:'MANUAL', qty:6, cost:55000, sell:95000, notes:'Tambah stok salt nic', userId:2, day:5, time:'16:30' },
+      { id:11, sku:'VP-009', type:'OUT', source:'SCAN', qty:3, cost:25000, sell:45000, notes:null, userId:3, day:5, time:'13:48' },
+      { id:10, sku:'VP-005', type:'OUT', source:'MANUAL', qty:5, cost:18000, sell:35000, notes:'Reseller Bandung', userId:1, day:4, time:'15:00' },
+      { id:9, sku:'VP-010', type:'IN', source:'SCAN', qty:15, cost:75000, sell:130000, notes:null, userId:2, day:4, time:'10:12' },
+      { id:8, sku:'VP-003', type:'OUT', source:'SCAN', qty:4, cost:65000, sell:120000, notes:null, userId:3, day:3, time:'17:30' },
+      { id:7, sku:'VP-001', type:'OUT', source:'SCAN', qty:2, cost:180000, sell:320000, notes:null, userId:3, day:3, time:'14:05' },
+      { id:6, sku:'VP-007', type:'IN', source:'SCAN', qty:12, cost:65000, sell:120000, notes:null, userId:2, day:2, time:'09:40' },
+      { id:5, sku:'VP-002', type:'OUT', source:'MANUAL', qty:3, cost:150000, sell:270000, notes:'Penjualan grosir', userId:1, day:2, time:'16:55' },
+      { id:4, sku:'VP-006', type:'OUT', source:'SCAN', qty:1, cost:165000, sell:290000, notes:null, userId:3, day:1, time:'12:20' },
+      { id:3, sku:'VP-005', type:'IN', source:'MANUAL', qty:20, cost:18000, sell:35000, notes:'Restok coil bulanan', userId:2, day:1, time:'10:00' },
+      { id:2, sku:'VP-003', type:'OUT', source:'SCAN', qty:2, cost:65000, sell:120000, notes:null, userId:3, day:0, time:'15:15' },
+      { id:1, sku:'VP-001', type:'IN', source:'SCAN', qty:10, cost:180000, sell:320000, notes:null, userId:2, day:0, time:'09:30' },
+    ],
+  };
+
+  USERS = { 1:{name:'Budi',role:'owner'}, 2:{name:'Sari',role:'admin'}, 3:{name:'Dewi',role:'kasir'} };
+  DAY_LABELS = ['12','13','14','15','16','17','18'];
+  CATS = ['Device','Liquid','Coil','Baterai','Aksesori'];
+
+  money(n){ return 'Rp ' + (n||0).toLocaleString('id-ID'); }
+  prod(sku){ return this.state.products.find(p => p.sku === sku); }
+  toast(msg){ this.setState({ snackbar: msg }); clearTimeout(this._t); this._t = setTimeout(()=>this.setState({snackbar:null}), 2200); }
+  go(screen, extra){ this.setState(Object.assign({ screen, showScanSheet:false, showProfileSheet:false }, extra||{})); }
+
+  login(role){ const id = {owner:1,admin:2,kasir:3}[role]; this.setState({ user:{ id, role, name:this.USERS[id].name }, screen:'dashboard' }); }
+  switchRole(role){ const id = {owner:1,admin:2,kasir:3}[role]; this.setState({ user:{ id, role, name:this.USERS[id].name }, showProfileSheet:false, screen:'dashboard' }); }
+
+  openFlow(mode){ this.setState({ screen:'flow', flowMode:mode, flowStage:'camera', showScanSheet:false, flowSku:null, flowFound:null, flowQty:1, fCost:'', fSell:'', fNotes:'', fSku:'', fBrand:'', fName:'', fCat:'Device' }); }
+  openKasir(){ this.go('kasir'); }
+  addToCart(sku, via){
+    const p = this.prod(sku);
+    if(!p){ this.toast('Produk tidak ditemukan'); return; }
+    if(p.stock === 0){ this.toast('Stok habis'); return; }
+    const cart = this.state.cart.slice();
+    const line = cart.find(l => l.sku === sku);
+    if(line){ if(line.qty < p.stock){ line.qty++; } else { this.toast('Stok maksimum tercapai'); } }
+    else cart.push({ sku, qty:1, via: via||'MANUAL' });
+    this.setState({ cart });
+  }
+  cartDelta(sku, d){
+    const p = this.prod(sku);
+    let cart = this.state.cart.map(l => l.sku===sku ? Object.assign({},l,{ qty: Math.min(p?p.stock:l.qty, l.qty + d) }) : l);
+    cart = cart.filter(l => l.qty > 0);
+    this.setState({ cart });
+  }
+  removeLine(sku){ this.setState({ cart: this.state.cart.filter(l => l.sku !== sku) }); }
+  checkout(){
+    const s = this.state; if(!s.cart.length) return;
+    let nextId = Math.max(...s.transactions.map(t=>t.id)) + 1;
+    const txns = []; let total = 0, items = 0; const lines = [];
+    const products = s.products.map(p => {
+      const line = s.cart.find(l => l.sku === p.sku);
+      if(!line) return p;
+      const sub = p.sellingPrice * line.qty;
+      total += sub; items += line.qty;
+      lines.push({ name:p.productName, qty:line.qty, price:p.sellingPrice, sub });
+      txns.push({ id: nextId++, sku:p.sku, type:'OUT', source:line.via, qty:line.qty, cost:p.costPrice, sell:p.sellingPrice, notes:'Transaksi kasir', userId:s.user.id, day:6, time:'19:24' });
+      return Object.assign({}, p, { stock: p.stock - line.qty, updated:'18 Jun' });
+    });
+    const cash = parseInt(s.payCash) || 0;
+    if(cash < total) return;
+    const trxId = 'TRX-' + String(Date.now()).slice(-6);
+    this.setState({ products, transactions:[...txns, ...s.transactions], cart:[], showCart:false, payCash:'', screen:'kasirDone',
+      kasirDoneInfo:{ total, items, lines, cash, change: cash - total, time:'19:24', trxId, cashier: s.user.name } });
+  }
+
+  doScan(sku){
+    if(this.state.flowMode === 'kasirScan'){
+      this.addToCart(sku, 'SCAN'); const p = this.prod(sku);
+      if(p && p.stock>0) this.toast(p.productName + ' ditambahkan');
+      this.go('kasir'); return;
+    }
+    const isIn = this.state.flowMode === 'scanIn' || this.state.flowMode === 'manualIn';
+    if(sku === null){
+      this.setState({ flowStage:'newForm', flowFound:null, fSku:'VP-0'+(11+Math.floor(Math.random()*80)), flowQty:1, fCost:'', fSell:'' });
+      return;
+    }
+    const p = this.prod(sku);
+    if(!p){ this.setState({ flowStage:'result', flowFound:null, flowSku:sku }); return; }
+    this.setState({ flowStage:'result', flowFound:sku, flowSku:sku, flowQty:1, fCost:String(p.costPrice), fSell:String(p.sellingPrice), fNotes:'' });
+  }
+  qtyDelta(d){
+    const isOut = this.state.flowMode==='scanOut' || this.state.flowMode==='manualOut';
+    const p = this.prod(this.state.flowFound);
+    let q = this.state.flowQty + d;
+    if(q < 1) q = 1;
+    if(isOut && p && q > p.stock) q = p.stock;
+    this.setState({ flowQty:q });
+  }
+  confirm(){
+    const s = this.state; const isIn = s.flowMode==='scanIn'||s.flowMode==='manualIn';
+    const src = (s.flowMode==='manualIn'||s.flowMode==='manualOut') ? 'MANUAL' : 'SCAN';
+    const p = this.prod(s.flowFound); if(!p) return;
+    const products = s.products.map(x => x.sku===p.sku ? Object.assign({},x,{
+      stock: isIn ? x.stock + s.flowQty : x.stock - s.flowQty,
+      costPrice: isIn ? (parseInt(s.fCost)||x.costPrice) : x.costPrice,
+      sellingPrice: isIn ? (parseInt(s.fSell)||x.sellingPrice) : x.sellingPrice,
+      updated:'18 Jun'
+    }) : x);
+    const newStock = isIn ? p.stock + s.flowQty : p.stock - s.flowQty;
+    const txn = { id: Math.max(...s.transactions.map(t=>t.id))+1, sku:p.sku, type:isIn?'IN':'OUT', source:src, qty:s.flowQty, cost:isIn?(parseInt(s.fCost)||p.costPrice):p.costPrice, sell:isIn?(parseInt(s.fSell)||p.sellingPrice):p.sellingPrice, notes:s.fNotes||null, userId:s.user.id, day:6, time:'19:24' };
+    this.setState({ products, transactions:[txn,...s.transactions], flowStage:'done', doneInfo:{ name:p.productName, qty:s.flowQty, newStock, isIn } });
+  }
+  saveNew(){
+    const s = this.state;
+    const sku = s.fSku || ('VP-'+Date.now());
+    const newProd = { sku, brandName:s.fBrand||'—', productName:s.fName||'Produk Baru', category:s.fCat, stock:s.flowQty, costPrice:parseInt(s.fCost)||0, sellingPrice:parseInt(s.fSell)||0, threshold:5, updated:'18 Jun' };
+    const src = s.flowMode==='manualIn' ? 'MANUAL' : 'SCAN';
+    const txn = { id: Math.max(...s.transactions.map(t=>t.id))+1, sku, type:'IN', source:src, qty:s.flowQty, cost:newProd.costPrice, sell:newProd.sellingPrice, notes:s.fNotes||null, userId:s.user.id, day:6, time:'19:24' };
+    this.setState({ products:[...s.products,newProd], transactions:[txn,...s.transactions], flowStage:'done', doneInfo:{ name:newProd.productName, qty:s.flowQty, newStock:s.flowQty, isIn:true, isNew:true } });
+  }
+
+  renderVals(){
+    const s = this.state;
+    const role = s.user ? s.user.role : 'kasir';
+    const canManage = role==='owner' || role==='admin';
+    const canSeeCost = role==='owner' || role==='admin';
+    const screen = s.screen;
+    const GREEN='#0E9F6E', RED='#C42B2B', GREENBG='#E7F6EF', REDBG='#FDECEC', BLUE='#1D4ED8', BLUEBG='#E7EEFD', PURP='#6D28D9', PURPBG='#F0EAFB';
+
+    const txnView = (t)=>{ const p=this.prod(t.sku)||{productName:t.sku,brandName:''}; const u=this.USERS[t.userId]; const isIn=t.type==='IN';
+      return { id:t.id, sku:t.sku, name:p.productName, brand:p.brandName, type:t.type, source:t.source, qty:t.qty, cost:t.cost, sell:t.sell, notes:t.notes,
+        costLabel:this.money(t.cost), sellLabel:this.money(t.sell),
+        userName: u ? u.name : '—', date: this.DAY_LABELS[t.day]+' Jun · '+t.time,
+        arrow:isIn?'↓':'↑', dotBg:isIn?GREENBG:REDBG, dotColor:isIn?GREEN:RED,
+        typeLabel:isIn?'Masuk':'Keluar', qtyAbs:t.qty, qtyLabel:(isIn?'+':'−')+t.qty,
+        sourceLabel:t.source==='SCAN'?'Scan':'Manual', srcBg:t.source==='SCAN'?BLUEBG:PURPBG, srcColor:t.source==='SCAN'?BLUE:PURP,
+        open:()=>this.go('historyDetail',{selectedTxnId:t.id}) };
+    };
+
+    const v = {
+      role, canManage, canSeeCost,
+      roleLabel: role==='owner'?'Owner · Akses Penuh':role==='admin'?'Admin · Kelola Inventori':'Kasir · Scan Keluar',
+      roleShort: role==='owner'?'Owner':role==='admin'?'Admin':'Kasir',
+      firstName: s.user ? s.user.name : '',
+      initials: s.user ? s.user.name.slice(0,2).toUpperCase() : '',
+      todayDate: '18 Juni 2026',
+      showLogin: screen==='login',
+      appShell: screen!=='login',
+      mainDashboard: screen==='dashboard',
+      mainKasir: ['kasir','payment','kasirDone'].includes(screen),
+      mainStock: ['stock','stockDetail'].includes(screen),
+      mainStats: screen==='stats',
+      mainHistory: ['history','historyDetail'].includes(screen),
+      mainManual: screen==='manualHome',
+      mainSettings: screen==='settings',
+      showFlowAny: screen==='flow',
+      showStockDetail: screen==='stockDetail',
+      showHistoryDetail: screen==='historyDetail',
+      showCamera: screen==='flow' && s.flowStage==='camera',
+      showFlowResult: screen==='flow' && (s.flowStage==='result' || s.flowStage==='newForm'),
+      showFlowDone: screen==='flow' && s.flowStage==='done',
+      loginUser:s.loginUser, loginPass:s.loginPass,
+      onLoginUser:(e)=>this.setState({loginUser:e.target.value}),
+      onLoginPass:(e)=>this.setState({loginPass:e.target.value}),
+      doLogin:()=>this.login('owner'),
+      loginOwner:()=>this.login('owner'), loginAdmin:()=>this.login('admin'), loginKasir:()=>this.login('kasir'),
+      goDashboard:()=>this.go('dashboard'), goStock:()=>this.go('stock'),
+      goStats:()=>this.go('stats'), goHistory:()=>this.go('history'),
+      goManual:()=>this.go('manualHome'), goSettings:()=>this.go('settings'),
+      goLowStock:()=>this.go('stock',{stockSort:'stock',stockCat:'Semua',stockSearch:''}),
+      logout:()=>this.setState({user:null,screen:'login'}),
+      switchOwner:()=>this.switchRole('owner'), switchAdmin:()=>this.switchRole('admin'), switchKasir:()=>this.switchRole('kasir'),
+      startScanIn:()=>this.openFlow('scanIn'), startScanOut:()=>this.openFlow('scanOut'),
+      startManualIn:()=>this.openFlow('manualIn'), startManualOut:()=>this.openFlow('manualOut'),
+      snackbar:s.snackbar,
+      snackEdit:()=>this.toast('Form edit produk (demo)'),
+      exportCsv:()=>this.toast(canSeeCost?'CSV diekspor — termasuk harga modal':'CSV diekspor'),
+      threshold:s.threshold,
+      thrMinus:()=>this.setState({threshold:Math.max(1,s.threshold-1)}),
+      thrPlus:()=>this.setState({threshold:s.threshold+1}),
+      stop:(e)=>{ e.stopPropagation(); },
+    };
+
+    // nav items
+    const navDef = [
+      {label:'Beranda', icon:'⌂', screens:['dashboard'], go:()=>this.go('dashboard'), roles:['owner','admin','kasir']},
+      {label:'Kasir', icon:'Rp', screens:['kasir','payment','kasirDone'], go:()=>this.openKasir(), roles:['owner','admin','kasir']},
+      {label:'Stok', icon:'▦', screens:['stock','stockDetail'], go:()=>this.go('stock'), roles:['owner','admin','kasir']},
+      {label:'Statistik', icon:'▤', screens:['stats'], go:()=>this.go('stats'), roles:['owner','admin','kasir']},
+      {label:'Riwayat', icon:'↺', screens:['history','historyDetail'], go:()=>this.go('history'), roles:['owner','admin','kasir']},
+      {label:'Input Manual', icon:'✎', screens:['manualHome','flow'], go:()=>this.go('manualHome'), roles:['owner','admin']},
+      {label:'Pengaturan', icon:'⚙', screens:['settings'], go:()=>this.go('settings'), roles:['owner','admin']},
+    ];
+    v.navItems = navDef.filter(n=>n.roles.includes(role)).map(n=>{ const active=n.screens.includes(screen); return {
+      label:n.label, icon:n.icon, go:n.go,
+      bg: active?'#E7F6EF':'transparent', color: active?'#0B7A52':'#6B7280', weight: active?'800':'600' };
+    });
+
+    const pill=(active)=>active?{bg:'#15171C',border:'#15171C',color:'#fff'}:{bg:'#F7F8F9',border:'#E6E8EC',color:'#454953'};
+    v.ownerSel=pill(role==='owner'); v.adminSel=pill(role==='admin'); v.kasirSel=pill(role==='kasir');
+
+    const lowList = s.products.filter(p=>p.stock < s.threshold);
+    v.totalSku = s.products.length;
+    v.totalStock = s.products.reduce((a,p)=>a+p.stock,0).toLocaleString('id-ID');
+    v.lowStockCount = lowList.length;
+    v.hasLowStock = lowList.length>0;
+    v.todayTxn = s.transactions.filter(t=>t.day===6).length;
+    v.recentTxns = s.transactions.slice(0,5).map(txnView);
+
+    let list = s.products.slice();
+    if(s.stockCat!=='Semua') list = list.filter(p=>p.category===s.stockCat);
+    if(s.stockSearch.trim()){ const q=s.stockSearch.toLowerCase(); list=list.filter(p=>p.productName.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||p.brandName.toLowerCase().includes(q)); }
+    if(s.stockSort==='name') list.sort((a,b)=>a.productName.localeCompare(b.productName));
+    else if(s.stockSort==='stock') list.sort((a,b)=>a.stock-b.stock);
+    else list.sort((a,b)=>a.sku.localeCompare(b.sku));
+    v.stockCount = list.length;
+    v.sortLabel = s.stockSort==='name'?'Nama':s.stockSort==='stock'?'Stok':'Terbaru';
+    v.cycleSort = ()=>this.setState({stockSort: s.stockSort==='name'?'stock':s.stockSort==='stock'?'updated':'name'});
+    v.stockSearch = s.stockSearch;
+    v.onStockSearch = (e)=>this.setState({stockSearch:e.target.value});
+    v.stockList = list.map(p=>{ const low=p.stock<s.threshold; return {
+      sku:p.sku, productName:p.productName, brandName:p.brandName, stock:p.stock, category:p.category,
+      catShort:p.category.slice(0,4).toUpperCase(),
+      sellLabel:this.money(p.sellingPrice), costLabel:this.money(p.costPrice),
+      stockColor: low?'#D97706':'#15171C',
+      open:()=>this.go('stockDetail',{selectedSku:p.sku}) };
+    });
+    v.catChips = ['Semua',...this.CATS].map(c=>{ const a=s.stockCat===c; return { label:c, select:()=>this.setState({stockCat:c}),
+      bg:a?'#15171C':'#fff', border:a?'#15171C':'#E6E8EC', color:a?'#fff':'#454953' }; });
+
+    const dp = this.prod(s.selectedSku);
+    if(dp){ const low=dp.stock<s.threshold; v.detail={ sku:dp.sku, productName:dp.productName, brandName:dp.brandName, category:dp.category,
+      stock:dp.stock, stockColor:low?'#D97706':'#15171C', sellLabel:this.money(dp.sellingPrice), costLabel:this.money(dp.costPrice),
+      threshold:dp.threshold, updated:dp.updated };
+      v.detailTxns = s.transactions.filter(t=>t.sku===dp.sku).slice(0,6).map(txnView);
+    } else { v.detail={}; v.detailTxns=[]; }
+    v.backToStock=()=>this.go('stock');
+
+    const days = this.DAY_LABELS.map((lbl,i)=>{ const ins=s.transactions.filter(t=>t.day===i&&t.type==='IN').reduce((a,t)=>a+t.qty,0); const outs=s.transactions.filter(t=>t.day===i&&t.type==='OUT').reduce((a,t)=>a+t.qty,0); return {label:lbl,ins,outs}; });
+    const maxD = Math.max(1,...days.map(d=>Math.max(d.ins,d.outs)));
+    v.chartDays = days.map(d=>({ label:d.label, inPct:Math.round(d.ins/maxD*100)+'%', outPct:Math.round(d.outs/maxD*100)+'%' }));
+    v.sumIn = s.transactions.filter(t=>t.type==='IN').reduce((a,t)=>a+t.qty,0);
+    v.sumOut = s.transactions.filter(t=>t.type==='OUT').reduce((a,t)=>a+t.qty,0);
+    v.scanCount = s.transactions.filter(t=>t.source==='SCAN').length;
+    v.manualCount = s.transactions.filter(t=>t.source==='MANUAL').length;
+    const moved={}; s.transactions.forEach(t=>{ moved[t.sku]=(moved[t.sku]||0)+t.qty; });
+    const top = Object.entries(moved).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    const topMax = top.length?top[0][1]:1;
+    v.topProducts = top.map((e,i)=>{ const p=this.prod(e[0]); return { rank:i+1, name:p?p.productName:e[0], qty:e[1], pct:Math.round(e[1]/topMax*100)+'%' }; });
+    v.rangeChips = ['Hari Ini','Minggu Ini','Bulan Ini','Kustom'].map((r,i)=>{ const a=i===1; return { label:r, select:()=>this.toast('Rentang: '+r),
+      bg:a?'#15171C':'#fff', border:a?'#15171C':'#E6E8EC', color:a?'#fff':'#454953' }; });
+
+    let h = s.transactions.slice();
+    if(s.histFilter==='Masuk') h=h.filter(t=>t.type==='IN');
+    else if(s.histFilter==='Keluar') h=h.filter(t=>t.type==='OUT');
+    else if(s.histFilter==='Scan') h=h.filter(t=>t.source==='SCAN');
+    else if(s.histFilter==='Manual') h=h.filter(t=>t.source==='MANUAL');
+    if(s.histSearch.trim()){ const q=s.histSearch.toLowerCase(); h=h.filter(t=>{const p=this.prod(t.sku); return (p&&p.productName.toLowerCase().includes(q))||t.sku.toLowerCase().includes(q);}); }
+    v.historyList = h.map(txnView);
+    v.histSearch=s.histSearch; v.onHistSearch=(e)=>this.setState({histSearch:e.target.value});
+    v.histChips = ['Semua','Masuk','Keluar','Scan','Manual'].map(f=>{ const a=s.histFilter===f; return { label:f, select:()=>this.setState({histFilter:f}),
+      bg:a?'#15171C':'#fff', border:a?'#15171C':'#E6E8EC', color:a?'#fff':'#454953' }; });
+
+    const dt = s.transactions.find(t=>t.id===s.selectedTxnId);
+    if(dt){ const tv=txnView(dt); v.txn=tv;
+      const rows=[ {label:'SKU',value:tv.sku}, {label:'Produk',value:tv.name}, {label:'Tanggal',value:tv.date}, {label:'Jumlah',value:tv.qty+' unit'}, {label:'Sumber',value:tv.sourceLabel}, {label:'User',value:tv.userName} ];
+      if(canSeeCost){ rows.push({label:'Harga Modal',value:this.money(dt.cost)}); rows.push({label:'Harga Jual',value:this.money(dt.sell)}); }
+      rows.push({label:'Keterangan',value:dt.notes||'—'});
+      v.txnRows = rows.map((r,i)=>Object.assign(r,{border:i===rows.length-1?'transparent':'#F1F2F4'}));
+    } else { v.txn={}; v.txnRows=[]; }
+    v.backToHistory=()=>this.go('history');
+
+    const mode = s.flowMode;
+    const isIn = mode==='scanIn'||mode==='manualIn';
+    const isOut = mode==='scanOut'||mode==='manualOut';
+    const isManual = mode==='manualIn'||mode==='manualOut';
+    v.flowIsIn=isIn; v.flowIsOut=isOut; v.flowIsManual=isManual;
+    v.flowTitle = mode==='kasirScan'?'Scan ke Keranjang':mode==='scanIn'?'Scan Barang Masuk':mode==='scanOut'?'Scan Barang Keluar':mode==='manualIn'?'Input Manual Masuk':'Input Manual Keluar';
+    v.cancelFlow=()=>this.go(mode==='kasirScan'?'kasir':'dashboard');
+    v.backToCamera=()=>this.setState({screen:'flow',flowStage:'camera'});
+
+    let samples;
+    if(mode==='kasirScan'){ samples = s.products.filter(p=>p.stock>0).slice(0,4).map(p=>({ label:p.productName, sku:p.sku, scan:()=>this.doScan(p.sku) })); }
+    else { samples = s.products.slice(0,3).map(p=>({ label:p.productName, sku:p.sku, scan:()=>this.doScan(p.sku) })); }
+    if(isIn){ samples.push({ label:'Produk baru (SKU tak terdaftar)', sku:'tidak dikenal', scan:()=>this.doScan(null) }); }
+    if(isOut){ samples.push({ label:'Produk stok habis (uji)', sku:'VP-008 · stok 2', scan:()=>this.doScan('VP-008') });
+               samples.push({ label:'Barcode tak dikenal (uji)', sku:'??-999', scan:()=>this.doScan('XX-999') }); }
+    v.sampleScans = samples;
+
+    const fp = this.prod(s.flowFound);
+    v.flowShowNewForm = s.flowStage==='newForm';
+    v.flowShowProduct = s.flowStage==='result' && !!fp && !(isOut && fp.stock===0);
+    v.flowAlert = '';
+    if(s.flowStage==='result'){
+      if(!fp) v.flowAlert='Produk tidak ditemukan';
+      else if(isOut && fp.stock===0) v.flowAlert='Stok habis';
+    }
+    v.flowShowCost = canSeeCost;
+    if(fp){ v.flowProd={ productName:fp.productName, brandName:fp.brandName, sku:fp.sku, stock:fp.stock, sellLabel:this.money(fp.sellingPrice), costLabel:this.money(fp.costPrice) }; }
+    else v.flowProd={ productName:'', brandName:'', sku:'', stock:0, sellLabel:'', costLabel:'' };
+    v.flowQty=s.flowQty;
+    v.qtyLabel = isIn?'Quantity ditambah':'Quantity keluar';
+    v.qtyMinus=()=>this.qtyDelta(-1); v.qtyPlus=()=>this.qtyDelta(1);
+    v.fCost=s.fCost; v.fSell=s.fSell; v.fNotes=s.fNotes; v.fSku=s.fSku; v.fBrand=s.fBrand; v.fName=s.fName;
+    v.onFCost=(e)=>this.setState({fCost:e.target.value}); v.onFSell=(e)=>this.setState({fSell:e.target.value});
+    v.onFNotes=(e)=>this.setState({fNotes:e.target.value}); v.onFSku=(e)=>this.setState({fSku:e.target.value});
+    v.onFBrand=(e)=>this.setState({fBrand:e.target.value}); v.onFName=(e)=>this.setState({fName:e.target.value});
+    v.confirmLabel = isIn?'Tambah Stok':'Konfirmasi Keluar';
+    v.confirmBg = isIn?'#0E9F6E':'#C42B2B';
+    v.confirmFlow=()=>this.confirm();
+    v.saveNewProduct=()=>this.saveNew();
+    v.newCatChips = this.CATS.map(c=>{ const a=s.fCat===c; return { label:c, select:()=>this.setState({fCat:c}),
+      bg:a?'#15171C':'#fff', border:a?'#15171C':'#E6E8EC', color:a?'#fff':'#454953' }; });
+
+    const di=s.doneInfo||{};
+    v.doneTitle = di.isNew?'Produk Baru Disimpan':di.isIn?'Stok Berhasil Ditambah':'Barang Berhasil Keluar';
+    const drows=[ {label:'Produk',value:di.name||'—'}, {label:di.isIn?'Jumlah Masuk':'Jumlah Keluar',value:(di.qty||0)+' unit'}, {label:'Stok Sekarang',value:(di.newStock!=null?di.newStock:'—')+' unit'} ];
+    v.doneRows = drows.map((r,i)=>Object.assign(r,{border:i===drows.length-1?'transparent':'#F1F2F4'}));
+    v.againLabel = isManual?'Input Lagi':'Scan Lagi';
+    v.flowAgain=()=>this.openFlow(mode);
+    v.flowFinish=()=>this.go(isManual?'manualHome':'dashboard');
+
+    v.showKasirDone = screen==='kasirDone';
+    v.openKasir = ()=>this.openKasir();
+    v.openKasirScan = ()=>this.setState({ screen:'flow', flowMode:'kasirScan', flowStage:'camera', showCart:false });
+    v.kasirSearch = s.kasirSearch;
+    v.onKasirSearch = (e)=>this.setState({ kasirSearch:e.target.value });
+
+    const cartLines = s.cart.map(l=>{ const p=this.prod(l.sku)||{}; return {
+      sku:l.sku, name:p.productName||l.sku, sellLabel:this.money(p.sellingPrice), qty:l.qty,
+      via: l.via==='SCAN'?'Scan':'Manual', viaBg:l.via==='SCAN'?BLUEBG:PURPBG, viaColor:l.via==='SCAN'?BLUE:PURP,
+      lineLabel:this.money((p.sellingPrice||0)*l.qty),
+      minus:()=>this.cartDelta(l.sku,-1), plus:()=>this.cartDelta(l.sku,1), remove:()=>this.removeLine(l.sku) };
+    });
+    v.cartLines = cartLines;
+    v.cartEmpty = cartLines.length===0;
+    v.cartHas = cartLines.length>0;
+    const cartTotal = s.cart.reduce((a,l)=>{ const p=this.prod(l.sku); return a + (p?p.sellingPrice:0)*l.qty; },0);
+    const cartItems = s.cart.reduce((a,l)=>a+l.qty,0);
+    v.cartTotalLabel = this.money(cartTotal);
+    v.cartItemsLabel = cartItems + ' item';
+    v.payLabel = cartItems>0 ? ('Bayar · ' + cartItems + ' item') : 'Bayar';
+    v.payBg = cartItems>0 ? '#0E9F6E' : '#CFD3D8';
+    v.checkout = ()=>this.checkout();
+
+    let pick = s.products.slice();
+    if(s.kasirSearch.trim()){ const q=s.kasirSearch.toLowerCase(); pick=pick.filter(p=>p.productName.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||p.brandName.toLowerCase().includes(q)); }
+    v.catalogList = pick.map(p=>{ const line=s.cart.find(l=>l.sku===p.sku); const out=p.stock===0; const inCart=line?line.qty:0; return {
+      sku:p.sku, name:p.productName, brand:p.brandName, sellLabel:this.money(p.sellingPrice),
+      imgId:'kasir-img-'+p.sku,
+      stockLabel: out?'Habis':('Stok '+p.stock), stockColor: out?'#C42B2B':'#9AA0AA',
+      inCart, hasCart: inCart>0, out, canAdd: !out && inCart===0,
+      add:()=>this.addToCart(p.sku,'MANUAL'), plus:()=>this.cartDelta(p.sku,1), minus:()=>this.cartDelta(p.sku,-1) };
+    });
+
+    v.showPayment = screen==='payment';
+    v.openPayment = ()=>{ if(!s.cart.length) return; this.setState({ screen:'payment', payCash:'', showCart:false }); };
+    v.backToKasir = ()=>this.go('kasir');
+    v.payCash = s.payCash;
+    v.onPayCash = (e)=>this.setState({ payCash: (e.target.value||'').replace(/[^0-9]/g,'') });
+    v.payTotalLabel = this.money(cartTotal);
+    const cashNum = parseInt(s.payCash)||0;
+    const change = cashNum - cartTotal;
+    v.changeLabel = this.money(change>0?change:0);
+    v.changeColor = change>0 ? '#0B7A52' : '#9AA0AA';
+    v.canPay = cashNum >= cartTotal && cartTotal>0;
+    v.payBtnBg = v.canPay ? '#0E9F6E' : '#CFD3D8';
+    v.confirmPayment = ()=>this.checkout();
+    const ceilTo=(x,st)=>Math.ceil(x/st)*st;
+    let sugg=[cartTotal, ceilTo(cartTotal,5000), ceilTo(cartTotal,50000), 50000,100000,150000,200000];
+    sugg=[...new Set(sugg)].filter(x=>x>=cartTotal && x>0).sort((a,b)=>a-b).slice(0,5);
+    v.cashChips = sugg.map((n,i)=>({ label:(i===0&&n===cartTotal)?'Uang Pas':this.money(n), set:()=>this.setState({payCash:String(n)}) }));
+
+    const kd = s.kasirDoneInfo||{};
+    v.kasirTotalLabel = this.money(kd.total||0);
+    v.kasirCashLabel = this.money(kd.cash||0);
+    v.kasirChangeLabel = this.money(kd.change||0);
+    v.kasirItemsLabel = (kd.items!=null?kd.items:cartItems)+' item';
+    v.kasirTrx = kd.trxId||'—';
+    v.kasirTime = kd.time||'';
+    v.kasirCashier = kd.cashier||'';
+    v.strukLines = (kd.lines||[]).map(l=>({ name:l.name, qtyPrice:l.qty+' x '+this.money(l.price), sub:this.money(l.sub) }));
+    v.printReceipt = ()=>{ try{ window.print(); }catch(e){} };
+    v.kasirAgain = ()=>this.openKasir();
+    v.kasirFinish = ()=>this.go('dashboard');
+
+    return v;
+  }
+}
+</script>
+</body>
+</html>
